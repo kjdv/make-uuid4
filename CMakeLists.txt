@@ -15,12 +15,4 @@ add_subdirectory(test)
 add_subdirectory(examples)
 
 # install rules
-install(TARGETS uuid4
-        EXPORT Uuid4Targets
-        ARCHIVE DESTINATION lib COMPONENT lib
-        PUBLIC_HEADER DESTINATION include/uuid4 COMPONENT dev
-)
-install(FILES Uuid4Config.cmake DESTINATION share/uuid4)
-
-install(EXPORT Uuid4Targets DESTINATION share/uuid4 NAMESPACE Uuid4::)
-export(TARGETS uuid4 NAMESPACE Uuid4:: FILE ${CMAKE_CURRENT_BINARY_DIR}/Uuid4Targets.cmake)
+install(TARGETS uuid4)
