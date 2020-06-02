@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
+#include <regex>
 #include <set>
+#include <sstream>
 #include <tuple>
 #include <uuid4.h>
-#include <sstream>
-#include <regex>
 
 namespace uuid4 {
 namespace {
@@ -16,7 +16,6 @@ struct UuidCompare
            std::tie(b.time_low, b.time_mid, b.time_hi_and_version, b.clock_seq_hi_and_reserved, b.clock_seq_low, b.node1);
   }
 };
-
 
 TEST(MakeUuid4, SetsUuid4Bits)
 {
@@ -50,35 +49,35 @@ TEST(MakeUuid4, ResultsAreRandom)
 
 TEST(MakeUuid4, Print)
 {
-    Uuid u{
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7
-    };
+  Uuid u{
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7};
 
-    std::ostringstream s;
-    s << u;
+  std::ostringstream s;
+  s << u;
 
-    EXPECT_EQ("00000001-0002-0003-0405-000000060007", s.str());
+  EXPECT_EQ("00000001-0002-0003-0405-000000060007", s.str());
 }
 
 TEST(MakeUuid4, PrintMatchesPatter)
 {
-    auto n = 100;
-    const std::regex re("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
+  auto             n = 100;
+  const std::regex re("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
 
-    for (auto i = 0; i < n; ++i) {
-        auto u = make_uuid4();
+  for(auto i = 0; i < n; ++i)
+  {
+    auto u = make_uuid4();
 
-        std::ostringstream s;
-        s << u;
+    std::ostringstream s;
+    s << u;
 
-        EXPECT_TRUE(std::regex_match(s.str(), re));
-    }
+    EXPECT_TRUE(std::regex_match(s.str(), re));
+  }
 }
 
 } // namespace
