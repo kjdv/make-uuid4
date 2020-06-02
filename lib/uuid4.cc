@@ -1,30 +1,39 @@
 #include <uuid4.h>
 #include <random>
+#include <fmt/format.h>
 
 namespace uuid4 {
 namespace {
 
-std::random_device device;
-std::mt19937 generator(device());
-
-std::uniform_int_distribution<uint8_t> distribute8;
-std::uniform_int_distribution<uint16_t> distribute16;
-std::uniform_int_distribution<uint32_t> distribute32;
-std::uniform_int_distribution<uint64_t> distribute64;
-
+std::random_device generator;
 
 }
 
 Uuid make_uuid4()
 {
-    return Uuid{
-        distribute32(generator),
-        distribute16(generator),
-        static_cast<uint16_t>((4 << 12) | (distribute16(generator) >> 4)),
-        static_cast<uint8_t>((2 << 6) | (distribute8(generator) >> 2)),
-        distribute8(generator),
-        distribute64(generator),
-    };
+    Uuid u{};
+
+    unsigned *t = reinterpret_cast<unsigned *>(&u);
+    for (size_t i = 0; i < sizeof(Uuid) / sizeof(unsigned); ++i) {
+        t[i] = generator();
+    }
+
+    u.clock_seq_hi_and_reserved &= ~(1 << 6);
+    u.clock_seq_hi_and_reserved |= 1 << 7;
+
+    u.time_hi_and_version &= ~((1 << 15) | (1 << 13) | (1 << 12));
+    u.time_hi_and_version |= 1 << 14;
+
+    return u;
+}
+
+std::ostream &operator<<(std::ostream &out, const Uuid &u)
+{
+    using fmt::format;
+
+    return out
+       << format("{:08x}-{:04x}-{:04x}-{:02x}{:02x}-{:08x}{:04x}",
+                 u.time_low, u.time_mid, u.time_hi_and_version, u.clock_seq_hi_and_reserved, u.clock_seq_low, u.node1, u.node2);
 }
 
 }

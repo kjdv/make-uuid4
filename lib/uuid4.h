@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <array>
+#include <ostream>
 
 namespace uuid4 {
 
@@ -11,9 +12,12 @@ struct Uuid {
     uint16_t time_hi_and_version;
     uint8_t clock_seq_hi_and_reserved;
     uint8_t clock_seq_low;
-    uint64_t node;
+    uint32_t node1;
+    uint16_t node2;
 };
 
 Uuid make_uuid4();
+
+std::ostream &operator<<(std::ostream &out, const Uuid &u);
 
 }

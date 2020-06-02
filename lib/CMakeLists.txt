@@ -15,3 +15,7 @@ target_include_directories(uuid4_common
 )
 
 
+target_link_libraries(uuid4_common
+    PUBLIC fmt::fmt
+)
+

@@ -2,6 +2,8 @@
 #include <set>
 #include <tuple>
 #include <uuid4.h>
+#include <sstream>
+#include <regex>
 
 namespace uuid4 {
 namespace {
@@ -10,8 +12,8 @@ struct UuidCompare
 {
   bool operator()(const Uuid a, const Uuid b) const
   {
-    return std::tie(a.time_low, a.time_mid, a.time_hi_and_version, a.clock_seq_hi_and_reserved, a.clock_seq_low, a.node) <
-           std::tie(b.time_low, b.time_mid, b.time_hi_and_version, b.clock_seq_hi_and_reserved, b.clock_seq_low, b.node);
+    return std::tie(a.time_low, a.time_mid, a.time_hi_and_version, a.clock_seq_hi_and_reserved, a.clock_seq_low, a.node1) <
+           std::tie(b.time_low, b.time_mid, b.time_hi_and_version, b.clock_seq_hi_and_reserved, b.clock_seq_low, b.node1);
   }
 };
 
@@ -34,7 +36,7 @@ TEST(MakeUuid4, SetsUuid4Bits)
 
 TEST(MakeUuid4, ResultsAreRandom)
 {
-  auto n = 1000;
+  auto n = 100;
 
   std::set<Uuid, UuidCompare> seen;
 
@@ -44,6 +46,39 @@ TEST(MakeUuid4, ResultsAreRandom)
     ASSERT_EQ(seen.end(), seen.find(u));
     seen.insert(u);
   }
+}
+
+TEST(MakeUuid4, Print)
+{
+    Uuid u{
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+    };
+
+    std::ostringstream s;
+    s << u;
+
+    EXPECT_EQ("00000001-0002-0003-0405-000000060007", s.str());
+}
+
+TEST(MakeUuid4, PrintMatchesPatter)
+{
+    auto n = 100;
+    const std::regex re("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
+
+    for (auto i = 0; i < n; ++i) {
+        auto u = make_uuid4();
+
+        std::ostringstream s;
+        s << u;
+
+        EXPECT_TRUE(std::regex_match(s.str(), re));
+    }
 }
 
 } // namespace

@@ -8,11 +8,11 @@ find_package(GTest MODULE REQUIRED)
 find_library(GMOCK_LIBRARIES gmock)
 enable_testing()
 
+find_package(fmt CONFIG REQUIRED)
 
 add_subdirectory(lib)
 add_subdirectory(app)
 add_subdirectory(test)
-add_subdirectory(examples)
 
 # install rules
 install(TARGETS uuid4)

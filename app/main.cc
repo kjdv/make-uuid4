@@ -1,7 +1,11 @@
-#include <sample.hh>
+#include <uuid4.h>
 #include <iostream>
 
+using namespace uuid4;
+using namespace std;
+
 int main() {
-  std::cout << uuid4::public_function() << '\n';
+  auto u = make_uuid4();
+  cout << u << '\n';
   return 0;
 }
