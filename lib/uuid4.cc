@@ -1,5 +1,6 @@
 #include <fmt/format.h>
 #include <random>
+#include <algorithm>
 #include <uuid4.h>
 
 namespace uuid4 {
@@ -13,11 +14,9 @@ Uuid make_uuid4()
 {
   Uuid u{};
 
-  unsigned* t = reinterpret_cast<unsigned*>(&u);
-  for(size_t i = 0; i < sizeof(Uuid) / sizeof(unsigned); ++i)
-  {
-    t[i] = generator();
-  }
+  std::generate_n(reinterpret_cast<unsigned*>(&u),
+                  sizeof(Uuid) / sizeof(unsigned),
+                  [] { return generator(); });
 
   u.clock_seq_hi_and_reserved &= ~(1 << 6);
   u.clock_seq_hi_and_reserved |= 1 << 7;
