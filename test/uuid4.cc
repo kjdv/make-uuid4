@@ -67,7 +67,7 @@ TEST(MakeUuid4, Print)
 TEST(MakeUuid4, PrintMatchesPatter)
 {
   auto             n = 100;
-  const std::regex re("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
+  const std::regex re("^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}$");
 
   for(auto i = 0; i < n; ++i)
   {
