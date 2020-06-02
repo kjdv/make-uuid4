@@ -9,6 +9,7 @@ find_library(GMOCK_LIBRARIES gmock)
 enable_testing()
 
 find_package(fmt CONFIG REQUIRED)
+find_package(cxxopts CONFIG REQUIRED)
 
 add_subdirectory(lib)
 add_subdirectory(app)
