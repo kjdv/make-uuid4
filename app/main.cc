@@ -9,7 +9,8 @@ int main(int argc, char** argv)
 {
   cxxopts::Options options("Uuid4", "Tiny utility to generate uuid4 style guids");
 
-  options.add_options()("h,help", "Print usage")("n,number", "number of guids to generate", cxxopts::value<unsigned>()->default_value("1"))("s,seperator", "seperator to use when printing (default: \\n)", cxxopts::value<string>());
+  options.add_options()
+          ("h,help", "Print usage")("n,number", "number of guids to generate", cxxopts::value<unsigned>()->default_value("1"));
 
   auto args = options.parse(argc, argv);
 
@@ -19,11 +20,9 @@ int main(int argc, char** argv)
     return 0;
   }
 
-  auto sep = args.count("seperator") ? args["seperator"].as<string>() : "\n";
-
   for(unsigned i = 0; i < args["number"].as<unsigned>(); ++i)
   {
-    cout << make_uuid4() << sep;
+    cout << make_uuid4() << '\n';
   }
 
   return 0;
