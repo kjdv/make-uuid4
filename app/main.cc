@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-  cxxopts::Options options("Uuid4", "Tiny utility to generate uuid4 style guids");
+  cxxopts::Options options("make-uuid4", "Tiny utility to generate uuid4 style guids");
 
   options.add_options()
           ("h,help", "Print usage")("n,number", "number of guids to generate", cxxopts::value<unsigned>()->default_value("1"));

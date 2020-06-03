@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(uuid4)
+project(make-uuid4)
 set(CMAKE_CXX_STANDARD 17)
 
 include(GoogleTest)
@@ -16,4 +16,4 @@ add_subdirectory(app)
 add_subdirectory(test)
 
 # install rules
-install(TARGETS uuid4)
+install(TARGETS make-uuid4)
