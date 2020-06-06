@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <fmt/format.h>
 #include <random>
 #include <uuid4.h>
@@ -8,15 +7,25 @@ namespace {
 
 std::random_device generator;
 
+template <typename T>
+T random() {
+    static_assert(sizeof(T) <= sizeof(std::random_device::result_type), "T too large");
+    return static_cast<T>(generator());
+}
+
 }
 
 Uuid make_uuid4()
 {
-    Uuid u;
-
-    std::generate_n(reinterpret_cast<unsigned*>(&u),
-                    sizeof(Uuid) / sizeof(unsigned),
-                    [] { return generator(); });
+    Uuid u{
+        random<uint32_t>(),
+        random<uint16_t>(),
+        random<uint16_t>(),
+        random<uint8_t>(),
+        random<uint8_t>(),
+        random<uint32_t>(),
+        random<uint16_t>(),
+    };
 
     u.clock_seq_hi_and_reserved &= ~(1 << 6);
     u.clock_seq_hi_and_reserved |= 1 << 7;
