@@ -12,7 +12,7 @@ std::random_device generator;
 
 Uuid make_uuid4()
 {
-    Uuid u{};
+    Uuid u;
 
     std::generate_n(reinterpret_cast<unsigned*>(&u),
                     sizeof(Uuid) / sizeof(unsigned),
