@@ -9,11 +9,13 @@ find_library(GMOCK_LIBRARIES gmock)
 enable_testing()
 
 find_package(fmt CONFIG REQUIRED)
+find_package(benchmark CONFIG REQUIRED)
 find_package(cxxopts CONFIG REQUIRED)
 
 add_subdirectory(lib)
 add_subdirectory(app)
 add_subdirectory(test)
+add_subdirectory(examples)
 
 # install rules
 install(TARGETS make-uuid4)
