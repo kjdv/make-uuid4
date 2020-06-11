@@ -6,7 +6,10 @@
 namespace uuid4 {
 namespace {
 
-std::random_device generator;
+std::random_device device;
+std::mt19937_64 generator(device());
+
+using random_type = std::mt19937_64::result_type;
 
 } // namespace
 
@@ -14,8 +17,8 @@ Uuid make_uuid4()
 {
     Uuid u;
 
-    std::generate_n(reinterpret_cast<unsigned*>(&u),
-                    sizeof(Uuid) / sizeof(unsigned),
+    std::generate_n(reinterpret_cast<random_type*>(&u),
+                    sizeof(Uuid) / sizeof(random_type),
                     [] { return generator(); });
 
     u.time_hi_and_version &= ~((1 << 15) | (1 << 13) | (1 << 12));

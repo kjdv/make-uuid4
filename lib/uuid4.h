@@ -1,12 +1,13 @@
 #pragma once
 
-#include <cstdint>
 #include <array>
+#include <cstdint>
 #include <ostream>
 
 namespace uuid4 {
 
-struct Uuid {
+struct Uuid
+{
     uint64_t
         time_low : 32,
         time_mid : 16,
@@ -21,6 +22,6 @@ static_assert(sizeof(Uuid) == 16, "should be 128 bits");
 
 Uuid make_uuid4();
 
-std::ostream &operator<<(std::ostream &out, const Uuid &u);
+std::ostream& operator<<(std::ostream& out, const Uuid& u);
 
-}
+} // namespace uuid4
