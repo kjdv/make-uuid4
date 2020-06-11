@@ -12,8 +12,8 @@ struct UuidCompare
 {
     bool operator()(const Uuid a, const Uuid b) const
     {
-        return std::tie(a.time_low, a.time_mid, a.time_hi_and_version, a.clock_seq_hi_and_reserved, a.clock_seq_low, a.node1) <
-               std::tie(b.time_low, b.time_mid, b.time_hi_and_version, b.clock_seq_hi_and_reserved, b.clock_seq_low, b.node1);
+        return std::tie(a.time_low, a.time_mid, a.time_hi_and_version, a.clock_seq_hi_and_reserved, a.clock_seq_low, a.node) <
+               std::tie(b.time_low, b.time_mid, b.time_hi_and_version, b.clock_seq_hi_and_reserved, b.clock_seq_low, b.node);
     }
 };
 
@@ -55,13 +55,12 @@ TEST(MakeUuid4, Print)
         3,
         4,
         5,
-        6,
-        7};
+        6};
 
     std::ostringstream s;
     s << u;
 
-    EXPECT_EQ("00000001-0002-0003-0405-000000060007", s.str());
+    EXPECT_EQ("00000001-0002-0003-0405-000000000006", s.str());
 }
 
 TEST(MakeUuid4, PrintMatchesPatter)

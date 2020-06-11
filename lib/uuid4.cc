@@ -32,14 +32,13 @@ std::ostream& operator<<(std::ostream& out, const Uuid& u)
     using fmt::format;
 
     return out
-           << format("{:08x}-{:04x}-{:04x}-{:02x}{:02x}-{:08x}{:04x}",
+           << format("{:08x}-{:04x}-{:04x}-{:02x}{:02x}-{:012x}",
                      u.time_low,
                      u.time_mid,
                      u.time_hi_and_version,
                      u.clock_seq_hi_and_reserved,
                      u.clock_seq_low,
-                     u.node1,
-                     u.node2);
+                     u.node);
 }
 
 } // namespace uuid4
